@@ -1,3 +1,5 @@
 # Javascript course
 
-## Group 30
+## Group 30: javascript-g30
+
+ 
