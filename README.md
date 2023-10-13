@@ -1,3 +1,3 @@
-# Javascript cource
+# Javascript course
 
-## Grout 30
+## Group 30
