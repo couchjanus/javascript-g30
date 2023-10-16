@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+
+    <link href="css/app.css" rel="stylesheet">
+</head>
+<body>
+    <header class="page-header mb-3">
+        <a href="#" class="brand">Shopaholic</a> 
+
+        <input id="toggler" type="checkbox">
+        <label for="toggler"><i class="fas fa-bars"></i></label>
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="catalog.html">Catalog</a>
+            <a href="blog.html">Blog</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <div class="toolbar">
+            <a href="index.html" class="far fa-heart"></a>
+            <a href="cart.html" class="fas fa-cart-plus"></a>
+            <a href="blog.html" class="far fa-user"></a>
+        </div>
+    </header>
+
+    <section id="crumb" class="hero bg-light py-5 mb-3">
+        <div class="container py-5">
+            <div class="d-flex crumb">
+                <h2 class="text-uppercase">Shopping Cart</h2>
+                <nav>
+                    <ul class="breadcrumb justify_content-end">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item active">Shopping cart</li>
+                    </ul>
+                </nav>
+            </div>    
+        </div>
+    </section>
+
+    <section class="py-5 mb-3">
+        <div class="container cart-container mb-3">
+            <main>
+                <table class="table">
+                    <thead>
+                        <tr class="bg-light">
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+ 
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Product test</td>
+                            <td>$123</td>
+                            <td class="qty">
+                                <input 
+                                    type="number" 
+                                    value="1"
+                                    min="1"
+                                    max="10"
+                                    required
+                                    >
+                                </td>
+                            <td>$123</td>
+                            <td><a href="#!" class="remove fas fa-trash-alt text-muted"></a></td>
+                        </tr>
+                        <tr>
+                            <td>Product test</td>
+                            <td>$123</td>
+                            <td><input 
+                                type="number" 
+                                value="1"
+                                min="1"
+                                max="10"
+                                required
+                                ></td>
+                            <td>$123</td>
+                            <td><a href="#!" class="remove fas fa-trash-alt text-muted"></a></td>
+                        </tr>
+                        <tr>
+                            <td>Product test</td>
+                            <td>$123</td>
+                            <td><input 
+                                type="number" 
+                                value="1"
+                                min="1"
+                                max="10"
+                                required
+                                ></td>
+                            <td>$123</td>
+                            <td><a href="#!" class="remove fas fa-trash-alt text-muted"></a></td>
+                        </tr>
+                        <tr>
+                            <td>Product test</td>
+                            <td>$123</td>
+                            <td><input 
+                                type="number" 
+                                value="1"
+                                min="1"
+                                max="10"
+                                required
+                                ></td>
+                            <td>$123</td>
+                            <td><a href="#!" class="remove fas fa-trash-alt text-muted"></a></td>
+                        </tr>
+                        <tr>
+                            <td>Product test</td>
+                            <td>$123</td>
+                            <td><input 
+                                type="number" 
+                                value="1"
+                                min="1"
+                                max="10"
+                                required
+                                ></td>
+                            <td>$123</td>
+                            <td><a href="#!" class="remove fas fa-trash-alt text-muted"></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </main>
+            <aside>
+                <div class="card py-4 bg-light">
+                    <div class="card-body">
+                        <h4 class="text-uppercase mb-3">Cart total</h4>
+                        <ul class="list-unstyled mb-3">
+                            <li class="d-flex align-items-center justify-content-between"><strong>Subtotal</strong><span>$234</span></li>
+                            <li class="d-flex align-items-center justify-content-between"><strong>Total</strong><span>$1234</span></li>
+                            <li class="link-unstyled">
+                                <form class="d-block">
+                                    <input class="form-control mb-3" type="text" placeholder="Enter Your coupon">
+
+                                    <button class="btn btn-send w-100"><i class="fas ga-gift"></i> Apply coupon</button>
+                                </form>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </section>
+
+
+   
+   
+    
+    <section id="divider" class="divider bg-fixed bg-cover bg-center py-5" style="background: url(images/divider-bg.jpg);">
+        <div class="container py-5 align-right px-5">
+            <p>New <span>Inspiration</span> 2023</p>
+            <h2>20% off on new season</h2>
+            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. </p>
+            <a href="#">Browse collections</a>
+        </div>
+    </section>
+
+    
+<footer class="bg-dark text-white py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <h4>Services</h4>
+                <ul class="link-unstyle">
+                    <li class="footer-link">Contact Us</li>
+                    <li class="footer-link">Help</li>
+                    <li class="footer-link">Condition</li>
+                    <li class="footer-link">Term</li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <h4>Services</h4>
+                <ul class="link-unstyle">
+                    <li>Contact Us</li>
+                    <li>Help</li>
+                    <li>Condition</li>
+                    <li>Term</li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+
+                <h4>Social Media</h4>
+                <ul class="link-unstyle">
+                    <li><a href="#" class="social-link"><i class="fab fa-facebook"></i> facebook</a></li>
+                    <li><a href="#"  class="social-link"><i class="fab fa-twitter"></i> twitter</a> </li>
+                    <li><a href="#"  class="social-link"><i class="fab fa-instagram"></i> instagram</a></li>
+                    <li><a href="#" class="social-link"><i class="fab fa-google-plus"></i> google</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-top pt-4">
+            <div class="row">
+                <div class="col-lg-6 text-start">
+                    <p class="small text-muted">&copy; 2023 All right reserved.</p>
+                </div>
+                <div class="col-lg-6 text-end">
+                    <p class="small text-muted">Designe by <a class="text-white" href="#">Shopaholic</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+    
+
+</body>
+</html>
