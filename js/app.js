@@ -1,83 +1,142 @@
 'use strict';
 
+// let arr = [1,2,,'test',['hello', 'World'],{name: 'john', last_name:'Doe'},,3];
+// console.log(arr.length)
+// console.log(arr[3])
+// console.log(arr[arr.length - 1])
 
-// let obj = {
-//     key: "Hello",
-//     numb: 123,
-//     'my key': "Hello world",
-//     test1: function*() {
-//         return "This is test";
-//     }
+// const arr1 = "1, First st., Kyiv".split(',')
+// console.log(arr1)
+
+
+// for (let i=0; i<arr.length; i++) {
+//     console.log(arr[i])
 // }
-// console.log(obj.key);
-// console.log(obj.numb);
-// console.log(obj['my key']);
-// console.log(typeof(obj))
-// let tst = obj.test1();
-// console.log(tst);
 
-// console.dir(window.document.body);
-// console.dir(window.document.head);
-// console.dir(window.document.title);
-
-// console.dir(document.all);
-// console.dir(document.all[55]);
-
-// document.all[55].innerText = "Hello DOM!";
-// let h2_collection = document.querySelectorAll('h2');
-// console.log(h2_collection[2]);
-
-// h2_collection[2].innerText = "Hello item number 2";
-
-// let product_collection = document.querySelectorAll('.product');
-// let product_collection = document.getElementsByClassName('product');
-// console.log(product_collection[2]);
-
-// let h2_first = document.querySelector('h2');
-// console.log(h2_first);
+// let i = 0;
+// while (i < arr.length) {
+//     console.log(arr[i])
+//     i++ 
+// }
 
 
-// toggler
-// console.log(toggler);
+//  do {
+//     console.log(arr[i])
+//     i++ 
+// } while (i < arr.length)
+let firstName = 'John',
+   lastName = 'Doe';
+let greeting = `Hi ${firstName}, ${lastName}`;
+// console.log(greeting); // Hi John, Doe
 
+const makeTitle = (icon, title) => `
+<h3><svg class="svg-icon mb-4 text-primary svg-icon-light">
+    <use xlink:href="#${icon}"> </use>
+</svg> ${title}</h3>
+`;
 
-// let this_toggler = document.getElementById('toggler');
+const makeContacts = (item) => {
+    let content = makeTitle(item.icon, item.title);
 
-// console.log(this_toggler);
+    for (let [key, value] of Object.entries(item)) {
+        if (!(key == 'icon' || key == 'title')) {
+            if (key == 'email') {
+                value = `<a class="btn btn-link" href="mailto:${value}">${value}</a>`;
+            }
+            content +=`<p>${value}</p>`
+        }  
+    }
+
+    
+    return content;
+};
+
+console.log(makeTitle('map-marker-1', 'Address'));
 
 function main() {
     const totalInWishlist  = document.getElementById('total-in-wishlist');
     const totalInCart  = document.getElementById('total-in-cart');
     
-    let addToWishlist = document.querySelector('.add-to-wishlist');
-    let addToCart = document.querySelector('.add-to-cart');
+    // let addToWishlist = document.querySelector('.add-to-wishlist');
+    let addToWishlistButtons = document.querySelectorAll('.add-to-wishlist');
+    // let addToCart = document.querySelector('.add-to-cart');
     
     const changeStyle = (item) => item.classList.add(["not-empty"]);
-    // console.log(totalInWishlist.innerText);
-    // console.log(totalInWishlist.innerText + 1 == true);
-    addToWishlist.addEventListener('click', function() {
-        // totalInWishlist.style.color = "red";
-        // totalInWishlist.style.cssText = "color:red; opacity:1; font-weight:700";
-        // totalInWishlist.className = 'not-empty';
     
-        if (!+totalInWishlist.innerText) {
-            console.log(totalInWishlist.innerText);
-            changeStyle(totalInWishlist);
+    // if (addToWishlist) {
+    //     addToWishlist.addEventListener('click', function() {
+    
+    //         if (!+totalInWishlist.innerText) {
+    //             console.log(totalInWishlist.innerText);
+    //             changeStyle(totalInWishlist);
+    //         }
+    //         totalInWishlist.innerText = ++totalInWishlist.innerText;
+    //     });
+
+    // }
+
+    if (addToWishlistButtons) {
+        addToWishlistButtons.forEach(item => {
+            item.addEventListener('click', function() {
+    
+                if (!+totalInWishlist.innerText) {
+                    console.log(totalInWishlist.innerText);
+                    changeStyle(totalInWishlist);
+                }
+                totalInWishlist.innerText = ++totalInWishlist.innerText;
+            });
+    
+        })
+    }
+    
+    // if (addToCart) {
+    //     addToCart.addEventListener('click', function() {
+    
+    //         if (!+totalInCart.innerText) {
+               
+    //             changeStyle(totalInCart);
+    //         }
+        
+    //         totalInCart.innerText = ++totalInCart.innerText;
+    //     });
+
+    // }
+
+    let addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+    if (addToCartButtons) {
+        addToCartButtons.forEach(item => {
+            item.addEventListener('click', function() {
+    
+                if (!+totalInCart.innerText) {
+                   
+                    changeStyle(totalInCart);
+                }
+            
+                totalInCart.innerText = ++totalInCart.innerText;
+            });
+        })
+    }
+
+    const contactSidebar = document.querySelector('.contact-sidebar');
+
+    if (contactSidebar) {
+
+        const addressBox = document.querySelector('.contact-sidebar .address');
+
+        let content = '';
+
+        for (let [key, value] of Object.entries(contacts)) {
+            content += makeContacts(value);
         }
-        // changeStyle(totalInWishlist);
-        totalInWishlist.innerText = ++totalInWishlist.innerText;
-    });
+
+        addressBox.innerHTML = content;
+
+    }
     
-    addToCart.addEventListener('click', function() {
-    
-        if (!+totalInCart.innerText) {
-           
-            changeStyle(totalInCart);
-        }
-    
-        totalInCart.innerText = ++totalInCart.innerText;
-    });
 }
+
+
 
 if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => main())
