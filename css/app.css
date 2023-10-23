@@ -1247,16 +1247,16 @@ ul.catagories li:nth-child(even) {
     overflow-y: auto;
     transition: .4s;
 
-    opacity: 0;
+    /* opacity: 0;
     visibility: hidden;
-    pointer-events: none;
+    pointer-events: none; */
 }
 
-.modal:target {
+/* .modal:target {
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
-}
+} */
 
 .modal-dialog {
     width: 100%;
@@ -1444,3 +1444,46 @@ ul.catagories li:nth-child(even) {
     background: salmon;
     color: #fff;
 }
+
+
+input[type="number"] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+ }
+ 
+ input[type=number]::-webkit-inner-spin-button,
+ input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+ }
+ 
+ .number-input {
+    border: 1px solid var(--active-color);
+    display: inline-flex;
+    border-radius: 9%;
+ }
+ 
+ .number-input button {
+    outline:none;
+    background-color: #fff;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    cursor: pointer;
+    margin: 0;
+    padding:0;
+    font-weight: 700;
+    font-size: 1.5rem;
+ }
+ .number-input button:hover {
+    background-color: var(--active-color);
+    color: white;
+ }
+  
+
+ .number-input input[type=number] {
+    max-width: 4.5rem;
+    padding: .5rem;
+    border: 0;
+    text-align: center;
+ }

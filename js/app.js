@@ -1,33 +1,8 @@
 'use strict';
 
-// let arr = [1,2,,'test',['hello', 'World'],{name: 'john', last_name:'Doe'},,3];
-// console.log(arr.length)
-// console.log(arr[3])
-// console.log(arr[arr.length - 1])
-
-// const arr1 = "1, First st., Kyiv".split(',')
-// console.log(arr1)
-
-
-// for (let i=0; i<arr.length; i++) {
-//     console.log(arr[i])
-// }
-
-// let i = 0;
-// while (i < arr.length) {
-//     console.log(arr[i])
-//     i++ 
-// }
-
-
-//  do {
-//     console.log(arr[i])
-//     i++ 
-// } while (i < arr.length)
-let firstName = 'John',
-   lastName = 'Doe';
-let greeting = `Hi ${firstName}, ${lastName}`;
-// console.log(greeting); // Hi John, Doe
+let cart = [];
+let wishlist = [];
+const modalWindow= document.querySelector('.modal-window');
 
 const makeTitle = (icon, title) => `
 <h3><svg class="svg-icon mb-4 text-primary svg-icon-light">
@@ -53,70 +28,288 @@ const makeContacts = (item) => {
 
 console.log(makeTitle('map-marker-1', 'Address'));
 
-function main() {
-    const totalInWishlist  = document.getElementById('total-in-wishlist');
-    const totalInCart  = document.getElementById('total-in-cart');
-    
-    // let addToWishlist = document.querySelector('.add-to-wishlist');
-    let addToWishlistButtons = document.querySelectorAll('.add-to-wishlist');
-    // let addToCart = document.querySelector('.add-to-cart');
-    
-    const changeStyle = (item) => item.classList.add(["not-empty"]);
-    
-    // if (addToWishlist) {
-    //     addToWishlist.addEventListener('click', function() {
-    
-    //         if (!+totalInWishlist.innerText) {
-    //             console.log(totalInWishlist.innerText);
-    //             changeStyle(totalInWishlist);
-    //         }
-    //         totalInWishlist.innerText = ++totalInWishlist.innerText;
-    //     });
+const productItemTemplate = (product) => `
+<article class="product">
 
-    // }
+    <div class="icons" data-id="${product.id}">
+        <a href="#" class="fas fa-shopping-cart add-to-cart"></a>
+        <a href="#!" class="fas fa-heart add-to-wishlist"></a>
+        <a href="#!" class="fas fa-eye detail"></a>
+    </div>
 
-    if (addToWishlistButtons) {
-        addToWishlistButtons.forEach(item => {
-            item.addEventListener('click', function() {
-    
-                if (!+totalInWishlist.innerText) {
-                    console.log(totalInWishlist.innerText);
-                    changeStyle(totalInWishlist);
-                }
-                totalInWishlist.innerText = ++totalInWishlist.innerText;
-            });
-    
-        })
+    <div class="image">
+        <img src="${product.image}">
+    </div>
+
+    <div class="content">
+        <p>${product.name}</p>
+        <div class="price">
+            $${product.price}
+        </div>
+    </div>
+</article>
+`;
+
+class Store {
+
+    static init(key) {
+
+        if (!Store.isset(key)) { 
+            Store.set(key, []);
+        }
+
+        return Store.get(key);
     }
-    
-    // if (addToCart) {
-    //     addToCart.addEventListener('click', function() {
-    
-    //         if (!+totalInCart.innerText) {
-               
-    //             changeStyle(totalInCart);
-    //         }
-        
-    //         totalInCart.innerText = ++totalInCart.innerText;
-    //     });
 
-    // }
+    static get(key) {
+        let value = localStorage.getItem(key);
+        return value === null ? null : JSON.parse(value);
+    }
 
+    static set(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    static isset(key) {
+        return this.get(key) !== null;
+    }
+}
+
+
+function populateProductList(products) {
+    let content = '';
+    for (const item of products) {
+        content += productItemTemplate(item);
+    }
+    return content;
+}
+
+function saveCart(cart) {
+    Store.set('basket', cart);
+}
+
+
+function saveWishlist(wishlist) {
+    Store.set('wishlist', wishlist);
+}
+function addProductToCart(product, amount=1) {
+
+    let inCart = cart.some(element => element.id === product.id);
+
+    if (inCart) {
+        cart.forEach(item => {
+            if (item.id === product.id) {
+                item.amount += amount;
+            }
+        })
+    } else {
+
+        let cartItem = {...product, amount: amount};
+        cart = [...cart, cartItem];
+
+    }
+
+    saveCart(cart);
+
+}
+
+function addProductToCartButton() {
     let addToCartButtons = document.querySelectorAll('.add-to-cart');
 
     if (addToCartButtons) {
         addToCartButtons.forEach(item => {
-            item.addEventListener('click', function() {
-    
-                if (!+totalInCart.innerText) {
+            item.addEventListener('click', function(event) {
+
+                let productId = event.target.closest('.icons').dataset.id;
+                addProductToCart({id: productId});
+                // if (!+totalInCart.innerText) {
                    
-                    changeStyle(totalInCart);
-                }
+                //     changeStyle(totalInCart);
+                // }
             
-                totalInCart.innerText = ++totalInCart.innerText;
+                // totalInCart.innerText = ++totalInCart.innerText;
             });
         })
     }
+}
+
+function addProductToWishlist(product) {
+    let inWishlist = wishlist.some(element => element.id === product.id);
+
+    if (!inWishlist) {
+        let cartItem = {...product};
+        wishlist = [...wishlist, cartItem];
+    }
+    saveWishlist(wishlist);
+
+}
+
+function addProductToWishlistButton() {
+    let addToWishlistButtons = document.querySelectorAll('.add-to-wishlist');
+
+    if (addToWishlistButtons) {
+        addToWishlistButtons.forEach(item => {
+            item.addEventListener('click', function(event) {
+
+                let productId = event.target.closest('.icons').dataset.id;
+                addProductToWishlist({id: productId});
+                // if (!+totalInCart.innerText) {
+                   
+                //     changeStyle(totalInCart);
+                // }
+            
+                // totalInCart.innerText = ++totalInCart.innerText;
+            });
+        })
+    }
+}
+
+
+
+const modalTemplate = (product) =>`
+<div class="modal">
+   <div class="modal-dialog">
+     <a href="#!" title="Close" class="close btn-close fas fa-times"></a>
+     <div class="modal-body">
+       <aside><img src="${product.image}"></aside>
+       <main>
+         <div class="info-container">
+           <div class="info-header"><h2>${product.name}</h2></div>
+
+           <div class="info-price">$${product.price}</div>
+           <div class="info-shipping">Free shipping</div>
+                  
+           <div class="info-button">
+               <a href="#!" class="btn btn-submit add-to-cart" data-id="${product.id}"><i class="fas fa-cart-plus"></i> Add to Cart</a>
+           </div>
+           <h3 class="qty-header py-2">Amount:</h3>    
+           <div class="qty qty-buttons">
+               <div class="number-input quantity" data-id="${product.id}">
+                   <button class="btn-dec">-</button> 
+                   <input class="quantity-result"  type="number"  value="1"  min="1"  max="10"   required  />
+                   <button class="btn-inc">+</button>
+               </div>
+           </div>
+           <div class="info-description">${product.description}</div>
+           <a class="btn btn-link text-dark text-decoration-none" href="#!" data-id="${product.id}"><i class="far fa-heart add-to-wishlist"></i>Add to wish list</a>
+         </div>
+       </main>
+     </div>
+   </div>
+</div>`;
+
+function renderModal(cart) {
+    
+
+    modalWindow.querySelector('.btn-inc').addEventListener('click', e => {
+        let val = e.target.previousElementSibling.value;
+        val++;
+        e.target.previousElementSibling.value = val;
+        
+    });
+
+    modalWindow.querySelector('.btn-dec').addEventListener('click', e => {
+        let val = e.target.nextElementSibling.value;
+        if (val > 1) {
+            val--;
+        }
+        e.target.nextElementSibling.value = val;
+       
+    });
+
+
+    let quantityResult = modalWindow.querySelector('.quantity-result');
+
+    // console.log(quantityResult)
+    let addToCart = modalWindow.querySelector('.add-to-cart');
+
+    addToCart.addEventListener('click', e => {
+        let productId = e.target.dataset.id;
+        addProductToCart({id: productId},  +quantityResult.value);
+    });
+
+
+}
+
+function toggleModal(cart, param, product={}) {
+    // console.log(modalWindow)
+    if (modalWindow.innerHTML=='') {
+        modalWindow.innerHTML = modalTemplate(product);
+        renderModal(cart);
+    } else {
+        modalWindow.innerHTML = '';
+    }
+
+    modalWindow.style.display = param;
+}
+
+function detailButton(cart, products) {
+    let detailButtons = document.querySelectorAll('.detail');
+
+    // console.log(detailButtons);
+    detailButtons.forEach(button => {
+        button.addEventListener('click', event => {
+            let productId = event.target.closest('.icons').dataset.id;
+            // console.log(productId);
+            let product = products.find(item => item.id === +productId);
+
+            toggleModal(cart, 'block', product);
+
+            document.querySelector('.btn-close').addEventListener('click', event => {
+                toggleModal(cart, 'none');
+            })
+
+            // console.log(product);
+        })
+    })
+
+}
+
+
+
+
+
+function main() {
+
+    cart = Store.init('basket');
+    wishlist = Store.init('wishlist');
+
+    const totalInWishlist  = document.getElementById('total-in-wishlist');
+    const totalInCart  = document.getElementById('total-in-cart');
+    const productContainer = document.querySelector('.product-container');
+
+    
+    if (productContainer) {
+        productContainer.innerHTML = populateProductList(products);
+        addProductToCartButton();
+        addProductToWishlistButton();
+        detailButton(cart, products);
+    }
+    
+    // let addToWishlist = document.querySelector('.add-to-wishlist');
+   
+    // let addToCart = document.querySelector('.add-to-cart');
+    
+    const changeStyle = (item) => item.classList.add(["not-empty"]);
+    
+    
+    // if (addToWishlistButtons) {
+    //     addToWishlistButtons.forEach(item => {
+    //         item.addEventListener('click', function() {
+    
+    //             if (!+totalInWishlist.innerText) {
+    //                 console.log(totalInWishlist.innerText);
+    //                 changeStyle(totalInWishlist);
+    //             }
+    //             totalInWishlist.innerText = ++totalInWishlist.innerText;
+    //         });
+    
+    //     })
+    // }
+    
+   
+
+   
 
     const contactSidebar = document.querySelector('.contact-sidebar');
 
