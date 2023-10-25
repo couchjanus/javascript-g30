@@ -8,7 +8,7 @@
 
     <link href="css/app.css" rel="stylesheet">
 </head>
-<body>
+<body id="cart-page">
     <header class="page-header mb-3">
         <a href="#" class="brand">Shopaholic</a> 
 
@@ -22,9 +22,9 @@
             <a href="contact.html">Contact</a>
         </nav>
         <div class="toolbar">
-            <a href="index.html" class="far fa-heart"></a>
-            <a href="cart.html" class="fas fa-cart-plus"></a>
-            <a href="blog.html" class="far fa-user"></a>
+            <a href="wishlist.html" class="far fa-heart"></a><span class="text-grey">(<span id="total-in-wishlist">0</span>)</span>
+            <a href="cart.html" class="fas fa-cart-plus"></a><span class="text-grey">(<span id="total-in-cart">0</span>)</span>
+            <a href="#!" onclick="window.login.showModal();" class="far fa-user"></a>
         </div>
     </header>
 
@@ -56,74 +56,8 @@
                         </tr>
  
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Product test</td>
-                            <td>$123</td>
-                            <td class="qty">
-                                <input 
-                                    type="number" 
-                                    value="1"
-                                    min="1"
-                                    max="10"
-                                    required
-                                    >
-                                </td>
-                            <td>$123</td>
-                            <td><a href="#!" class="remove fas fa-trash-alt text-muted"></a></td>
-                        </tr>
-                        <tr>
-                            <td>Product test</td>
-                            <td>$123</td>
-                            <td><input 
-                                type="number" 
-                                value="1"
-                                min="1"
-                                max="10"
-                                required
-                                ></td>
-                            <td>$123</td>
-                            <td><a href="#!" class="remove fas fa-trash-alt text-muted"></a></td>
-                        </tr>
-                        <tr>
-                            <td>Product test</td>
-                            <td>$123</td>
-                            <td><input 
-                                type="number" 
-                                value="1"
-                                min="1"
-                                max="10"
-                                required
-                                ></td>
-                            <td>$123</td>
-                            <td><a href="#!" class="remove fas fa-trash-alt text-muted"></a></td>
-                        </tr>
-                        <tr>
-                            <td>Product test</td>
-                            <td>$123</td>
-                            <td><input 
-                                type="number" 
-                                value="1"
-                                min="1"
-                                max="10"
-                                required
-                                ></td>
-                            <td>$123</td>
-                            <td><a href="#!" class="remove fas fa-trash-alt text-muted"></a></td>
-                        </tr>
-                        <tr>
-                            <td>Product test</td>
-                            <td>$123</td>
-                            <td><input 
-                                type="number" 
-                                value="1"
-                                min="1"
-                                max="10"
-                                required
-                                ></td>
-                            <td>$123</td>
-                            <td><a href="#!" class="remove fas fa-trash-alt text-muted"></a></td>
-                        </tr>
+                    <tbody class="shopping-cart-items">
+                        
                     </tbody>
                 </table>
 
@@ -133,7 +67,7 @@
                     <div class="card-body">
                         <h4 class="text-uppercase mb-3">Cart total</h4>
                         <ul class="list-unstyled mb-3">
-                            <li class="d-flex align-items-center justify-content-between"><strong>Subtotal</strong><span>$234</span></li>
+                            <li class="d-flex align-items-center justify-content-between"><strong>Subtotal</strong><span>$<span class="cart-subtotol">0</span></li>
                             <li class="d-flex align-items-center justify-content-between"><strong>Total</strong><span>$1234</span></li>
                             <li class="link-unstyled">
                                 <form class="d-block">
@@ -213,6 +147,8 @@
 
 </footer>
     
+<script src="js/db.js"></script>
+<script src="js/app.js" type="module"></script>
 
 </body>
 </html>

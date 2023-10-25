@@ -1,4 +1,9 @@
 'use strict';
+// import { Store } from "./modules/store";
+import { Store } from "/js/modules/store.js";
+import { populateShoppingCart, renderCart } from "/js/modules/cart.js";
+import { findItem, cartItemsAmount, saveCart } from "/js/modules/helpers.js";
+
 
 let cart = [];
 let wishlist = [];
@@ -50,30 +55,6 @@ const productItemTemplate = (product) => `
 </article>
 `;
 
-class Store {
-
-    static init(key) {
-
-        if (!Store.isset(key)) { 
-            Store.set(key, []);
-        }
-
-        return Store.get(key);
-    }
-
-    static get(key) {
-        let value = localStorage.getItem(key);
-        return value === null ? null : JSON.parse(value);
-    }
-
-    static set(key, value) {
-        localStorage.setItem(key, JSON.stringify(value));
-    }
-
-    static isset(key) {
-        return this.get(key) !== null;
-    }
-}
 
 
 function populateProductList(products) {
@@ -83,11 +64,6 @@ function populateProductList(products) {
     }
     return content;
 }
-
-function saveCart(cart) {
-    Store.set('basket', cart);
-}
-
 
 function saveWishlist(wishlist) {
     Store.set('wishlist', wishlist);
@@ -153,12 +129,7 @@ function addProductToWishlistButton() {
 
                 let productId = event.target.closest('.icons').dataset.id;
                 addProductToWishlist({id: productId});
-                // if (!+totalInCart.innerText) {
-                   
-                //     changeStyle(totalInCart);
-                // }
-            
-                // totalInCart.innerText = ++totalInCart.innerText;
+                
             });
         })
     }
@@ -251,7 +222,8 @@ function detailButton(cart, products) {
         button.addEventListener('click', event => {
             let productId = event.target.closest('.icons').dataset.id;
             // console.log(productId);
-            let product = products.find(item => item.id === +productId);
+            // let product = products.find(item => item.id === +productId);
+            let product = findItem(products,productId);
 
             toggleModal(cart, 'block', product);
 
@@ -266,16 +238,14 @@ function detailButton(cart, products) {
 }
 
 
-
-
-
 function main() {
 
     cart = Store.init('basket');
     wishlist = Store.init('wishlist');
+    cartItemsAmount(cart);
 
     const totalInWishlist  = document.getElementById('total-in-wishlist');
-    const totalInCart  = document.getElementById('total-in-cart');
+    
     const productContainer = document.querySelector('.product-container');
 
     
@@ -290,7 +260,7 @@ function main() {
    
     // let addToCart = document.querySelector('.add-to-cart');
     
-    const changeStyle = (item) => item.classList.add(["not-empty"]);
+
     
     
     // if (addToWishlistButtons) {
@@ -306,10 +276,7 @@ function main() {
     
     //     })
     // }
-    
-   
 
-   
 
     const contactSidebar = document.querySelector('.contact-sidebar');
 
@@ -326,6 +293,15 @@ function main() {
         addressBox.innerHTML = content;
 
     }
+    
+    const cartPage = document.getElementById('cart-page');
+    if (cartPage) {
+        const shoppingCartItems = cartPage.querySelector('.shopping-cart-items');
+        shoppingCartItems.innerHTML = populateShoppingCart(cart, products);
+
+        renderCart(shoppingCartItems, cart);
+    }
+
     
 }
 
