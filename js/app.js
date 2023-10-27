@@ -3,7 +3,8 @@
 import { Store } from "/js/modules/store.js";
 import { populateShoppingCart, renderCart } from "/js/modules/cart.js";
 import { findItem, cartItemsAmount, saveCart } from "/js/modules/helpers.js";
-
+import {populateProductList, addProductToCartButton} from "/js/modules/catalog.js";
+import { populateCategories, renderCategory } from "/js/modules/categories.js";
 
 let cart = [];
 let wishlist = [];
@@ -33,81 +34,12 @@ const makeContacts = (item) => {
 
 console.log(makeTitle('map-marker-1', 'Address'));
 
-const productItemTemplate = (product) => `
-<article class="product">
 
-    <div class="icons" data-id="${product.id}">
-        <a href="#" class="fas fa-shopping-cart add-to-cart"></a>
-        <a href="#!" class="fas fa-heart add-to-wishlist"></a>
-        <a href="#!" class="fas fa-eye detail"></a>
-    </div>
-
-    <div class="image">
-        <img src="${product.image}">
-    </div>
-
-    <div class="content">
-        <p>${product.name}</p>
-        <div class="price">
-            $${product.price}
-        </div>
-    </div>
-</article>
-`;
-
-
-
-function populateProductList(products) {
-    let content = '';
-    for (const item of products) {
-        content += productItemTemplate(item);
-    }
-    return content;
-}
 
 function saveWishlist(wishlist) {
     Store.set('wishlist', wishlist);
 }
-function addProductToCart(product, amount=1) {
 
-    let inCart = cart.some(element => element.id === product.id);
-
-    if (inCart) {
-        cart.forEach(item => {
-            if (item.id === product.id) {
-                item.amount += amount;
-            }
-        })
-    } else {
-
-        let cartItem = {...product, amount: amount};
-        cart = [...cart, cartItem];
-
-    }
-
-    saveCart(cart);
-
-}
-
-function addProductToCartButton() {
-    let addToCartButtons = document.querySelectorAll('.add-to-cart');
-
-    if (addToCartButtons) {
-        addToCartButtons.forEach(item => {
-            item.addEventListener('click', function(event) {
-
-                let productId = event.target.closest('.icons').dataset.id;
-                addProductToCart({id: productId});
-                // if (!+totalInCart.innerText) {
-                   
-                //     changeStyle(totalInCart);
-                // }
-            
-                // totalInCart.innerText = ++totalInCart.innerText;
-            });
-        })
-    }
-}
 
 function addProductToWishlist(product) {
     let inWishlist = wishlist.some(element => element.id === product.id);
@@ -251,32 +183,19 @@ function main() {
     
     if (productContainer) {
         productContainer.innerHTML = populateProductList(products);
-        addProductToCartButton();
+        addProductToCartButton(cart);
         addProductToWishlistButton();
         detailButton(cart, products);
+
+        const categoryContainer = document.getElementById('category-container');
+
+        if (categoryContainer) {
+            populateCategories(categoryContainer, categories);
+            renderCategory(productContainer, '#category-container', products, cart)
+        }
+
     }
     
-    // let addToWishlist = document.querySelector('.add-to-wishlist');
-   
-    // let addToCart = document.querySelector('.add-to-cart');
-    
-
-    
-    
-    // if (addToWishlistButtons) {
-    //     addToWishlistButtons.forEach(item => {
-    //         item.addEventListener('click', function() {
-    
-    //             if (!+totalInWishlist.innerText) {
-    //                 console.log(totalInWishlist.innerText);
-    //                 changeStyle(totalInWishlist);
-    //             }
-    //             totalInWishlist.innerText = ++totalInWishlist.innerText;
-    //         });
-    
-    //     })
-    // }
-
 
     const contactSidebar = document.querySelector('.contact-sidebar');
 
@@ -304,8 +223,6 @@ function main() {
 
     
 }
-
-
 
 if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", () => main())
