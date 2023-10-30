@@ -4,7 +4,7 @@ import { Store } from "/js/modules/store.js";
 import { populateShoppingCart, renderCart } from "/js/modules/cart.js";
 import { findItem, cartItemsAmount, saveCart } from "/js/modules/helpers.js";
 import {populateProductList, addProductToCartButton} from "/js/modules/catalog.js";
-import { populateCategories, renderCategory } from "/js/modules/categories.js";
+import { populateCategories, renderCategory, renderShowOnly, renderSelect } from "/js/modules/categories.js";
 
 let cart = [];
 let wishlist = [];
@@ -193,6 +193,19 @@ function main() {
             populateCategories(categoryContainer, categories);
             renderCategory(productContainer, '#category-container', products, cart)
         }
+
+        const showOnly = document.getElementById('show-only');
+        if (showOnly) {
+            renderShowOnly(showOnly, products, productContainer) 
+        }
+
+        const selectPicker = document.querySelector('.selectpicker');
+
+        if (selectPicker) {
+            renderSelect(selectPicker, products, productContainer, cart); 
+        }
+
+        
 
     }
     

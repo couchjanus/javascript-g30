@@ -9,6 +9,7 @@ const productItemTemplate = (product) => `
     </div>
 
     <div class="image">
+        <div class="badge text-white bg-${product.badge.bg}">${product.badge.title}</div>
         <img src="${product.image}">
     </div>
 
