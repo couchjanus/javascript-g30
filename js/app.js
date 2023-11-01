@@ -6,6 +6,14 @@ import { findItem, cartItemsAmount, saveCart } from "/js/modules/helpers.js";
 import {populateProductList, addProductToCartButton} from "/js/modules/catalog.js";
 import { populateCategories, renderCategory, renderShowOnly, renderSelect } from "/js/modules/categories.js";
 
+import Footer from './components/footer.js';
+customElements.define('footer-component', Footer);
+
+import Services from './components/services.js';
+customElements.define('services-component', Services);
+import Breadcrumb from './components/breadcrumb.js';
+customElements.define('breadcrumb-component', Breadcrumb);
+
 let cart = [];
 let wishlist = [];
 const modalWindow= document.querySelector('.modal-window');
