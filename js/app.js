@@ -2,7 +2,7 @@
 // import { Store } from "./modules/store";
 import { Store } from "/js/modules/store.js";
 import { populateShoppingCart, renderCart } from "/js/modules/cart.js";
-import { findItem, cartItemsAmount, saveCart } from "/js/modules/helpers.js";
+import { findItem, cartItemsAmount, fetchData } from "/js/modules/helpers.js";
 import {populateProductList, addProductToCartButton} from "/js/modules/catalog.js";
 import { populateCategories, renderCategory, renderShowOnly, renderSelect } from "/js/modules/categories.js";
 
@@ -13,6 +13,8 @@ import Services from './components/services.js';
 customElements.define('services-component', Services);
 import Breadcrumb from './components/breadcrumb.js';
 customElements.define('breadcrumb-component', Breadcrumb);
+import Carousel from './components/carousel.js';
+customElements.define('carousel-component', Carousel);
 
 let cart = [];
 let wishlist = [];
@@ -188,61 +190,68 @@ function main() {
     
     const productContainer = document.querySelector('.product-container');
 
+    // 
+
+    const url = 'http://localhost:3000';
+
+    // fetchData(`${url}/products`)
+    // .then(products => console.log(products));
+
+    fetchData(`${url}/products`)
+    .then(products => {
+        if (productContainer) {
+            
+            productContainer.innerHTML = populateProductList(products);
+            addProductToCartButton(cart);
+            addProductToWishlistButton();
+            detailButton(cart, products);
+
+            const categoryContainer = document.getElementById('category-container');
+            fetchData(`${url}/categories`)
+            .then(categories => {
+                if (categoryContainer) {
+                    populateCategories(categoryContainer, categories);
+                    renderCategory(productContainer, '#category-container', products, cart)
+                }
+            });
+            const showOnly = document.getElementById('show-only');
+            if (showOnly) {
+                renderShowOnly(showOnly, products, productContainer) 
+            }
+
+            const selectPicker = document.querySelector('.selectpicker');
+
+            if (selectPicker) {
+                renderSelect(selectPicker, products, productContainer, cart); 
+            }
+
+        }
+
+        const cartPage = document.getElementById('cart-page');
+        if (cartPage) {
+            const shoppingCartItems = cartPage.querySelector('.shopping-cart-items');
+            shoppingCartItems.innerHTML = populateShoppingCart(cart, products);
+
+            renderCart(shoppingCartItems, cart);
+        }
     
-    if (productContainer) {
-        productContainer.innerHTML = populateProductList(products);
-        addProductToCartButton(cart);
-        addProductToWishlistButton();
-        detailButton(cart, products);
+    });
+        const contactSidebar = document.querySelector('.contact-sidebar');
 
-        const categoryContainer = document.getElementById('category-container');
+        if (contactSidebar) {
 
-        if (categoryContainer) {
-            populateCategories(categoryContainer, categories);
-            renderCategory(productContainer, '#category-container', products, cart)
+            const addressBox = document.querySelector('.contact-sidebar .address');
+
+            let content = '';
+
+            for (let [key, value] of Object.entries(contacts)) {
+                content += makeContacts(value);
+            }
+
+            addressBox.innerHTML = content;
+
         }
-
-        const showOnly = document.getElementById('show-only');
-        if (showOnly) {
-            renderShowOnly(showOnly, products, productContainer) 
-        }
-
-        const selectPicker = document.querySelector('.selectpicker');
-
-        if (selectPicker) {
-            renderSelect(selectPicker, products, productContainer, cart); 
-        }
-
         
-
-    }
-    
-
-    const contactSidebar = document.querySelector('.contact-sidebar');
-
-    if (contactSidebar) {
-
-        const addressBox = document.querySelector('.contact-sidebar .address');
-
-        let content = '';
-
-        for (let [key, value] of Object.entries(contacts)) {
-            content += makeContacts(value);
-        }
-
-        addressBox.innerHTML = content;
-
-    }
-    
-    const cartPage = document.getElementById('cart-page');
-    if (cartPage) {
-        const shoppingCartItems = cartPage.querySelector('.shopping-cart-items');
-        shoppingCartItems.innerHTML = populateShoppingCart(cart, products);
-
-        renderCart(shoppingCartItems, cart);
-    }
-
-    
 }
 
 if (document.readyState === "loading") {

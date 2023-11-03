@@ -21,3 +21,20 @@ export function saveCart(cart) {
     Store.set('basket', cart);
     cartItemsAmount(cart);
 }
+
+
+export function fetchData(url) {
+    return fetch(url, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'}
+    }).then(response => {
+        if (response.status >= 400) {
+            return response.json().then(error => {
+                const err = new Error('Something went wrong!')
+                err.data = error;
+                throw err;
+            })
+        }
+        return response.json();
+    })
+}
